@@ -37,6 +37,13 @@
   networking.firewall.allowedTCPPorts = [ 80 443 ];
   # networking.firewall.allowedUDPPorts
 
+  security.sudo.enable = true;
+  security.sudo.configFile=
+   ''
+     root	ALL=(ALL) SETENV: ALL
+     javaguirre	ALL=(ALL) SETENV: ALL
+   '';
+
   # nix.gc.automatic = true;
   # nix.gc.dates = "18:00";
 
@@ -83,6 +90,7 @@
   # services.xserver.desktopManager.kde4.enable = true;
   # services.xserver.windowManager.default.enable = true;
   services.xserver.windowManager.awesome.enable = true;
+  # services.xserver.windowManager.dwm.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.guest = {

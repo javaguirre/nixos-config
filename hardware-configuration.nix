@@ -8,16 +8,20 @@
     [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
     ];
 
-  boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "xhci_hcd" "usb_storage" ];
+  boot.initrd.availableKernelModules = [
+    "ehci_pci" "ahci" "xhci_hcd" "usb_storage"
+  ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/sda1";
+    {
+      device = "/dev/sda2";
       fsType = "ext4";
     };
   fileSystems."/home" =
-    { device = "/dev/sda6";
+    {
+      device = "/dev/sda6";
       fsType = "ext4";
     };
 

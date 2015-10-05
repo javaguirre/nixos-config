@@ -8,93 +8,139 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      # Init file to make dwm available in Slim
-      ./dwm.nix
     ];
 
+  # virtualisation.virtualbox.guest.enable = true;
+  # boot.initrd.checkJournalingFS = false;
+
   # Use the GRUB 2 boot loader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
-  boot.loader.grub.extraEntries =
-    ''
-      menuentry "ArchLinux" {
-        set root=(hd0,2)
-        linux /boot/vmlinuz-linux root=UUID=c3797685-5561-4050-9302-1495b1703557 ro quiet
-        initrd /boot/initramfs-linux.img
-      }
-    '';
-  # Define on which hard drive you want to install Grub.
-  boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub = {
+    enable = false;
+    version = 2;
+    device = "/dev/sda";
+  };
 
-  networking.hostName = "calypso";
-  networking.wireless.enable = true;
-  networking.extraHosts =
-    ''
-      127.0.0.1	localhost.localdomain localhost local.selltag.com local.api.selltag.com
-      ::1		localhost.localdomain	localhost calypso
-      192.168.1.37    board.taikoa.net
-    '';
-
-  # networking.firewall.enable = true;
-  # networking.firewall.allowedTCPPorts = [ 80 443 ];
-  # networking.firewall.allowedUDPPorts
-
-  security.sudo.enable = true;
-  security.sudo.configFile=
-   ''
-     root	ALL=(ALL) SETENV: ALL
-     javaguirre	ALL=(ALL) SETENV: ALL
-   '';
-
-  # nix.gc.automatic = true;
-  # nix.gc.dates = "18:00";
-
+  networking = {
+    hostName = "calypso";
+    networkmanager.enable = true;
+  };
 
   # Select internationalisation properties.
   i18n = {
-    consoleFont = "lat9w-16";
+    consoleFont = "Lat2-Terminus16";
     consoleKeyMap = "us";
     defaultLocale = "en_US.UTF-8";
   };
 
+  # Set your time zone.
+  time.timeZone = "Europe/Amsterdam";
+
   # List packages installed in system profile. To search by name, run:
-  # -env -qaP | grep wget
+  # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    wget
+    ansible
+    emacs24Packages.cask
+    chromium
+    ctags
     emacs
-    tmux
-    vim
-    git
-    dwm
-    st
-    mutt
-    zsh
     firefox
+    gcc
+    git
+    gparted
+    htop
+    "python2.7-glances-2.4.2"
+    stow
+    tmux
+    unzip
+    vagrant
+    vim
+    wget
+    zsh
   ];
 
   # List services that you want to enable:
 
+  # Enable the OpenSSH daemon.
+  # services.openssh.enable = true;
+
+  # Enable CUPS to print documents.
+  # services.printing.enable = true;
+
+  # Firewall
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 80 443 22 ];
+  };
+
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.layout = "us";
-  services.xserver.xkbOptions = "eurosign:e";
-  services.xserver.synaptics.enable = true;
-  services.xserver.synaptics.twoFingerScroll = true;
+  services.xserver = {
+    enable = true;
+    layout = "us";
+    xkbOptions = "eurosign:e,ctrl:nocaps";
 
-  # window manager
-  services.xserver.windowManager.dwm.enable = true;
-  services.xserver.windowManager.awesome.enable = true;
+    synaptics.enable = true;
+    synaptics.twoFingerScroll = true;
 
-  # hardware.pulseaudio.enable = true;
-  users.defaultUserShell = "/var/run/current-system/sw/bin/zsh";
+    desktopManager.gnome3.enable = true;
+    windowManager.i3.enable = true;
+  };
+
+  # virtualisation.virtualbox.host.enable = true;
+  # virtualisation.virtualbox.host.enableHardening = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.extraUsers.guest = {
-    name = "javaguirre";
-    group = "users";
-    uid = 1000;
-    createHome = true;
-    home = "/home/javaguirre";
-    shell = "/run/current-system/sw/bin/zsh";
+  users.extraUsers = {
+    javaguirre = {
+      group = "users";
+      uid = 1000;
+      extraGroups = [
+        "adm"
+        "audio"
+        "networkmanager"
+        "vboxusers"
+        "tty"
+        "video"
+        "systemd-journal"
+      ];
+      createHome = true;
+      home = "/home/javaguirre";
+      shell = "/run/current-system/sw/bin/zsh";
+      isNormalUser = true;
+    };
+  };
+
+  # The NixOS release to be compatible with for stateful data such as databases.
+  system.stateVersion = "15.09";
+
+  # Security
+
+  security.sudo = {
+    enable = true;
+    configFile =
+      ''
+        root        ALL=(ALL) SETENV: ALL
+        javaguirre  ALL=(ALL) SETENV: ALL
+      '';
+  };
+
+  nixpkgs.config = {
+    firefox.enableAdobeFlash = true;
+  };
+
+  hardware = {
+    pulseaudio.enable = true;
+    bluetooth.enable = true;
+  };
+
+  fonts = {
+    enableFontDir = true;
+    enableGhostscriptFonts = true;
+    fonts = with pkgs; [
+      corefonts
+      inconsolata
+      ubuntu_font_family
+      unifont
+      powerline-fonts
+    ];
   };
 }

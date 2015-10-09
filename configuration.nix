@@ -15,9 +15,16 @@
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub = {
-    enable = false;
+    enable = true;
     version = 2;
     device = "/dev/sda";
+    extraEntries = ''
+      menuentry "Elementary OS" {
+        set root=(hd0,1)
+        linux /boot/vmlinuz-3.13.0-65-generic root=UUID=1de84a9e-55f2-4d96-983a-a135d44f82bd ro quiet
+        initrd /boot/initrd.img-3.13.0-65-generic
+      }
+    '';
   };
 
   networking = {
@@ -46,9 +53,12 @@
     firefox
     gcc
     git
+    gnome3.gnome-tweak-tool
     gparted
     htop
-    "python2.7-glances-2.4.2"
+    linuxPackages_4_1.virtualbox
+    python34Packages.glances
+    python34Packages.powerline
     stow
     tmux
     unzip
@@ -82,7 +92,7 @@
     synaptics.twoFingerScroll = true;
 
     desktopManager.gnome3.enable = true;
-    windowManager.i3.enable = true;
+    windowManager.i3.enable = false;
   };
 
   # virtualisation.virtualbox.host.enable = true;

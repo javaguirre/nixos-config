@@ -10,9 +10,6 @@
       ./hardware-configuration.nix
     ];
 
-  # virtualisation.virtualbox.guest.enable = true;
-  # boot.initrd.checkJournalingFS = false;
-
   # Use the GRUB 2 boot loader.
   boot.loader.grub = {
     enable = true;
@@ -46,6 +43,7 @@
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     ansible
+    bluez
     emacs24Packages.cask
     chromium
     ctags
@@ -59,16 +57,19 @@
     linuxPackages_4_1.virtualbox
     python34Packages.glances
     python34Packages.powerline
+    spideroak
     stow
     tmux
     unzip
     vagrant
-    vim
+    vim_configurable
+    vlc
     wget
     zsh
   ];
 
   # List services that you want to enable:
+  virtualisation.virtualbox.host.enable = true;
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
@@ -94,9 +95,6 @@
     desktopManager.gnome3.enable = true;
     windowManager.i3.enable = false;
   };
-
-  # virtualisation.virtualbox.host.enable = true;
-  # virtualisation.virtualbox.host.enableHardening = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers = {
@@ -134,6 +132,7 @@
   };
 
   nixpkgs.config = {
+    allowUnfree = true;
     firefox.enableAdobeFlash = true;
   };
 

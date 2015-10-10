@@ -48,12 +48,14 @@
     chromium
     ctags
     emacs
-    firefox
+    firefoxWrapper
     gcc
     git
+    gnome3.geary
     gnome3.gnome-tweak-tool
     gparted
     htop
+    idea.android-studio
     linuxPackages_4_1.virtualbox
     python34Packages.glances
     python34Packages.powerline
@@ -79,8 +81,10 @@
 
   # Firewall
   networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [ 80 443 22 ];
+    # Disabled due to Chromecast problem https://github.com/NixOS/nixpkgs/issues/3107
+    enable = false;
+    allowedTCPPorts = [ 80 443 22 5556 ];
+    allowedUDPPorts = [ 5556 ];
   };
 
   # Enable the X11 windowing system.
@@ -133,7 +137,11 @@
 
   nixpkgs.config = {
     allowUnfree = true;
-    firefox.enableAdobeFlash = true;
+
+    firefox = {
+        enableAdobeFlash = true;
+        enableGoogleTalkPlugin = true;
+    };
   };
 
   hardware = {

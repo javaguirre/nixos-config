@@ -72,5 +72,7 @@
   hardware = {
     pulseaudio.enable = true;
     bluetooth.enable = true;
+    opengl.driSupport32Bit = true;
+    pulseaudio.support32Bit = true;
   };
 }

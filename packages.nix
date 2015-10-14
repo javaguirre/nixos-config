@@ -9,6 +9,7 @@
     emacs24Packages.cask
     chromium
     ctags
+    docker
     emacs
     firefoxWrapper
     gcc
@@ -19,9 +20,13 @@
     htop
     idea.android-studio
     linuxPackages_4_1.virtualbox
+#    phpcs
+    python34Packages.pep8
+    python34Packages.flake8
     python34Packages.glances
     python34Packages.powerline
     spideroak
+    steam
     stow
     tmux
     unzip

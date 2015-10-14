@@ -15,8 +15,10 @@
     gcc
     git
     gnome3.geary
+    gnome3.gnome-bluetooth
     gnome3.gnome-tweak-tool
     gparted
+    go
     htop
     idea.android-studio
     linuxPackages_4_1.virtualbox
@@ -28,6 +30,9 @@
     spideroak
     steam
     stow
+    spotify
+    tetex
+    texLive
     tmux
     unzip
     vagrant

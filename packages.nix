@@ -23,6 +23,8 @@
     idea.android-studio
     linuxPackages_4_1.virtualbox
 #    phpcs
+    python
+    python27Packages.virtualenv
     python34Packages.pep8
     python34Packages.flake8
     python34Packages.glances

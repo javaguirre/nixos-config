@@ -21,6 +21,7 @@
     go
     htop
     idea.android-studio
+    libreoffice
     linuxPackages_4_1.virtualbox
 #    phpcs
     python
